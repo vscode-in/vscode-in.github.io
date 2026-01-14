@@ -30,7 +30,7 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.hidden-up, .hidden-left, .hidden-right').forEach(el => observer.observe(el));
 document.querySelectorAll('.counter').forEach(el => observer.observe(el.parentElement));
 
-// Updated Counter Logic
+// Updated Counter Logic (Handles + signs and decimals)
 function startCounter(el) {
     const targetStr = el.getAttribute('data-target');
     const suffix = el.getAttribute('data-suffix') || '';
@@ -76,21 +76,27 @@ if (typeElement) {
     setTimeout(typeWriter, 500);
 }
 
-// --- 4. Goal Planner Logic ---
+// --- 4. Goal Planner Logic (FIXED) ---
 if (document.getElementById('goal-planner')) {
     let currentStep = 1;
     const totalSteps = 5; 
 
+    // Function to navigate steps
     window.showStep = function(step) {
         document.querySelectorAll('.planner-step').forEach(s => s.classList.remove('active'));
-        document.getElementById(`step${step}`).classList.add('active');
-        let progress = (step / totalSteps) * 100;
-        if(step === 4) progress = 85; 
-        if(step === 5) progress = 100;
-        document.getElementById('progressBar').style.width = `${progress}%`;
-        currentStep = step;
+        const stepElement = document.getElementById(`step${step}`);
+        if(stepElement) {
+            stepElement.classList.add('active');
+            let progress = (step / totalSteps) * 100;
+            if(step === 4) progress = 85; 
+            if(step === 5) progress = 100;
+            const progressBar = document.getElementById('progressBar');
+            if(progressBar) progressBar.style.width = `${progress}%`;
+            currentStep = step;
+        }
     }
 
+    // Next Button Logic
     window.nextStep = function(targetStep) {
         if(currentStep === 1 && !document.getElementById('monthlyIncome').value) { alert("Please enter your monthly income."); return; }
         if(currentStep === 2 && !document.getElementById('goalType').value) { alert("Please select a goal."); return; }
@@ -98,31 +104,71 @@ if (document.getElementById('goal-planner')) {
         showStep(targetStep);
     }
 
+    // Prev Button Logic
     window.prevStep = function(targetStep) { showStep(targetStep); }
 
+    // Calculation Logic
     window.calculateGoal = function() {
-        const targetAmount = parseFloat(document.getElementById('targetAmount').value);
-        const currentSavings = parseFloat(document.getElementById('currentSavings').value) || 0;
-        const years = parseFloat(document.getElementById('goalYears').value);
+        const targetAmountInput = document.getElementById('targetAmount');
+        const currentSavingsInput = document.getElementById('currentSavings');
+        const goalYearsInput = document.getElementById('goalYears');
+        const goalTypeInput = document.getElementById('goalType');
+
+        if(!targetAmountInput || !goalYearsInput) return; // Safety check
+
+        const targetAmount = parseFloat(targetAmountInput.value) || 0;
+        const currentSavings = parseFloat(currentSavingsInput.value) || 0;
+        const years = parseFloat(goalYearsInput.value) || 1;
         
-        const rate = 12; 
+        // --- 15% RETURN RATE ---
+        const rate = 15; 
         const monthlyRate = rate / 12 / 100;
         const months = years * 12;
+        
+        // Future value of current savings
         const currentSavingsFV = currentSavings * Math.pow((1 + rate/100), years);
+        
+        // Remaining amount needed
         let requiredAmount = targetAmount - currentSavingsFV;
         
-        if(requiredAmount <= 0) {
-            document.getElementById('requiredSIP').innerText = "Goal Met!";
-        } else {
-            const factor = (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate * (1 + monthlyRate);
-            const monthlySIP = requiredAmount / factor;
-            document.getElementById('requiredSIP').innerText = '₹ ' + Math.ceil(monthlySIP).toLocaleString('en-IN');
-        }
+        // Update Result Screen
         showStep(5);
+
+        // Update Target Amount Text
+        const resTarget = document.getElementById('resTarget');
+        if(resTarget) resTarget.innerText = '₹ ' + targetAmount.toLocaleString('en-IN');
+
+        // Update Goal Name Text (if element exists)
+        const resGoal = document.getElementById('resGoal');
+        if(resGoal && goalTypeInput) resGoal.innerText = goalTypeInput.value;
+
+        // Update Years Text (FIXED)
+        const resYears = document.getElementById('resYears');
+        if(resYears) resYears.innerText = years;
+
+        // Update SIP Result
+        const requiredSIPEl = document.getElementById('requiredSIP');
+        if(requiredSIPEl) {
+            if(requiredAmount <= 0) {
+                requiredSIPEl.innerText = "Goal Achievable with Savings!";
+                requiredSIPEl.style.fontSize = "1.5rem";
+            } else {
+                const factor = (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate * (1 + monthlyRate);
+                const monthlySIP = requiredAmount / factor;
+                requiredSIPEl.innerText = '₹ ' + Math.ceil(monthlySIP).toLocaleString('en-IN');
+                requiredSIPEl.style.fontSize = "2.2rem";
+            }
+        }
     }
 
     window.resetPlanner = function() {
-        document.getElementById('plannerForm').reset();
+        const form = document.getElementById('plannerForm');
+        if(form) form.reset();
+        
+        // Reset range text manually since form reset doesn't trigger oninput
+        const yearValue = document.getElementById('yearValue');
+        if(yearValue) yearValue.innerText = "5 Years";
+        
         showStep(1);
     }
 }
