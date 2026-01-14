@@ -70,7 +70,7 @@
                             <i class="fas fa-wallet"></i>
                             <input type="number" id="monthlyIncome" placeholder="e.g. 50000">
                         </div>
-                        <button class="btn-next ripple" onclick="nextStep(2)">Next <i class="fas fa-arrow-right"></i></button>
+                        <button type="button" class="btn-next ripple" onclick="nextStep(2)">Next <i class="fas fa-arrow-right"></i></button>
                     </div>
                     <div class="planner-step" id="step2">
                         <label class="question-label">What is your major financial goal?</label>
@@ -88,8 +88,8 @@
                             </select>
                         </div>
                         <div class="btn-group">
-                            <button class="btn-prev" onclick="prevStep(1)">Back</button>
-                            <button class="btn-next ripple" onclick="nextStep(3)">Next <i class="fas fa-arrow-right"></i></button>
+                            <button type="button" class="btn-prev" onclick="prevStep(1)">Back</button>
+                            <button type="button" class="btn-next ripple" onclick="nextStep(3)">Next <i class="fas fa-arrow-right"></i></button>
                         </div>
                     </div>
                     <div class="planner-step" id="step3">
@@ -104,8 +104,8 @@
                             <input type="number" id="currentSavings" placeholder="Current Savings (Optional)" value="0">
                         </div>
                         <div class="btn-group">
-                            <button class="btn-prev" onclick="prevStep(2)">Back</button>
-                            <button class="btn-next ripple" onclick="nextStep(4)">Next <i class="fas fa-arrow-right"></i></button>
+                            <button type="button" class="btn-prev" onclick="prevStep(2)">Back</button>
+                            <button type="button" class="btn-next ripple" onclick="nextStep(4)">Next <i class="fas fa-arrow-right"></i></button>
                         </div>
                     </div>
                     <div class="planner-step" id="step4">
@@ -113,8 +113,8 @@
                         <div class="range-display"><span id="yearValue">5 Years</span></div>
                         <input type="range" id="goalYears" min="1" max="30" value="5" oninput="document.getElementById('yearValue').innerText = this.value + ' Years'">
                         <div class="btn-group">
-                            <button class="btn-prev" onclick="prevStep(3)">Back</button>
-                            <button class="btn-calc ripple shine-effect" onclick="calculateGoal()">Calculate</button>
+                            <button type="button" class="btn-prev" onclick="prevStep(3)">Back</button>
+                            <button type="button" class="btn-calc ripple shine-effect" onclick="calculateGoal()">Calculate</button>
                         </div>
                     </div>
                     <div class="planner-step" id="step5">
@@ -122,7 +122,8 @@
                             <h4><i class="fas fa-check-circle"></i> Plan Ready!</h4>
                             <p>To reach <span id="resTarget">₹ 0</span> in <span id="resYears">0</span> years:</p>
                             <div class="sip-box"><small>Required Monthly SIP</small><h2 id="requiredSIP">₹ 0</h2></div>
-                            <button class="btn-reset" onclick="resetPlanner()">Reset</button>
+                            <p class="note">*Assumed annual return rate of 15%</p>
+                            <button type="button" class="btn-reset" onclick="resetPlanner()">Reset</button>
                         </div>
                     </div>
                 </form>
@@ -349,13 +350,12 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h3>Radhe Krishna Financial HUB</h3>
+                    <h3>Radhe Krishna Financial Hub</h3>
                     <p style="color: var(--secondary); font-weight: 600; margin-bottom: 5px;">Ashok Kumar Goyal</p>
                     <p>AMFI Registered Mutual Fund Distributor.</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.facebook.com/profile.php?id=61586229762821" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.linkedin.com/company/radhe-krishna-financial-hub/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
                 <div class="footer-col">
@@ -365,8 +365,11 @@
                     <p>radhekrishnafinancialhub@gmail.com</p>
                 </div>
             </div>
+            
+            <p style="text-align: center; font-size: 0.8rem; color: #777; margin: 20px 0 10px;">Mutual Fund investments are subject to market risks, read all scheme related documents carefully.</p>
+            
             <div class="footer-bottom">
-                <p>© 2026 Radhe Krishna Financial HUB. All Rights Reserved.</p>
+                <p>© 2026 Radhe Krishna Financial Hub. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
