@@ -230,13 +230,21 @@ input[type="range"] { width: 100%; accent-color: var(--secondary); cursor: point
 
 /* Services Carousel */
 .carousel-container { position: relative; display: flex; align-items: center; overflow: hidden; padding: 20px 0; }
-.carousel-track { display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none; padding: 10px; width: 100%; }
+.carousel-track {
+    display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth;
+    scrollbar-width: none; padding: 10px; width: 100%;
+    /* Snapping */
+    scroll-snap-type: x mandatory;
+}
 .carousel-track::-webkit-scrollbar { display: none; }
+
 .service-slide-card, .testimonial-card {
     min-width: 280px; background: var(--white); padding: 35px 25px; border-radius: 15px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.05); text-align: center; border: 1px solid #f0f0f0;
     transition: all 0.4s ease; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
     flex-shrink: 0;
+    /* Snap align */
+    scroll-snap-align: start;
 }
 .service-slide-card:hover, .testimonial-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: var(--secondary); }
 .carousel-btn {
