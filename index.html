@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Radhe Krishna Financial HUB | Home</title>
+    
+    <link rel="icon" type="image/jpeg" href="logo.jpeg">
+
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -67,9 +70,8 @@
                             <i class="fas fa-wallet"></i>
                             <input type="number" id="monthlyIncome" placeholder="e.g. 50000">
                         </div>
-                        <button type="button" class="btn-next ripple" onclick="nextStep(2)">Next <i class="fas fa-arrow-right"></i></button>
+                        <button class="btn-next ripple" onclick="nextStep(2)">Next <i class="fas fa-arrow-right"></i></button>
                     </div>
-
                     <div class="planner-step" id="step2">
                         <label class="question-label">What is your major financial goal?</label>
                         <div class="input-wrapper-icon">
@@ -86,11 +88,10 @@
                             </select>
                         </div>
                         <div class="btn-group">
-                            <button type="button" class="btn-prev" onclick="prevStep(1)">Back</button>
-                            <button type="button" class="btn-next ripple" onclick="nextStep(3)">Next <i class="fas fa-arrow-right"></i></button>
+                            <button class="btn-prev" onclick="prevStep(1)">Back</button>
+                            <button class="btn-next ripple" onclick="nextStep(3)">Next <i class="fas fa-arrow-right"></i></button>
                         </div>
                     </div>
-
                     <div class="planner-step" id="step3">
                         <label class="question-label">How much money do you need?</label>
                         <div class="input-wrapper-icon">
@@ -103,31 +104,25 @@
                             <input type="number" id="currentSavings" placeholder="Current Savings (Optional)" value="0">
                         </div>
                         <div class="btn-group">
-                            <button type="button" class="btn-prev" onclick="prevStep(2)">Back</button>
-                            <button type="button" class="btn-next ripple" onclick="nextStep(4)">Next <i class="fas fa-arrow-right"></i></button>
+                            <button class="btn-prev" onclick="prevStep(2)">Back</button>
+                            <button class="btn-next ripple" onclick="nextStep(4)">Next <i class="fas fa-arrow-right"></i></button>
                         </div>
                     </div>
-
                     <div class="planner-step" id="step4">
                         <label class="question-label">Time horizon (Years)</label>
                         <div class="range-display"><span id="yearValue">5 Years</span></div>
                         <input type="range" id="goalYears" min="1" max="30" value="5" oninput="document.getElementById('yearValue').innerText = this.value + ' Years'">
                         <div class="btn-group">
-                            <button type="button" class="btn-prev" onclick="prevStep(3)">Back</button>
-                            <button type="button" class="btn-calc ripple shine-effect" onclick="calculateGoal()">Calculate</button>
+                            <button class="btn-prev" onclick="prevStep(3)">Back</button>
+                            <button class="btn-calc ripple shine-effect" onclick="calculateGoal()">Calculate</button>
                         </div>
                     </div>
-
                     <div class="planner-step" id="step5">
                         <div class="result-display">
                             <h4><i class="fas fa-check-circle"></i> Plan Ready!</h4>
                             <p>To reach <span id="resTarget">₹ 0</span> in <span id="resYears">0</span> years:</p>
-                            <div class="sip-box">
-                                <small>Required Monthly SIP</small>
-                                <h2 id="requiredSIP">₹ 0</h2>
-                            </div>
-                            <p class="note">*Assumed annual return rate of 15%</p>
-                            <button type="button" class="btn-reset" onclick="resetPlanner()">Reset</button>
+                            <div class="sip-box"><small>Required Monthly SIP</small><h2 id="requiredSIP">₹ 0</h2></div>
+                            <button class="btn-reset" onclick="resetPlanner()">Reset</button>
                         </div>
                     </div>
                 </form>
@@ -153,8 +148,8 @@
             
             <div class="stat-box hidden-up tilt-card" style="transition-delay: 0.4s;">
                 <i class="fas fa-star pulse-icon" style="color: #FF9900;"></i>
-                <h2 class="counter" data-target="4.8" data-suffix="">20+</h2>
-                <p>Years Experience</p>
+                <h2 class="counter" data-target="4.8" data-suffix="">4.8</h2>
+                <p>Overall Rating</p>
             </div>
         </div>
     </section>
@@ -187,6 +182,9 @@
                 <button class="carousel-btn next ripple" onclick="scrollServices(1)"><i class="fas fa-chevron-right"></i></button>
             </div>
 
+            <div class="disclaimer-small hidden-up">
+                (All services are provided strictly as a Mutual Fund Distributor and not as a Registered Investment Advisor.)
+            </div>
         </div>
     </section>
 
