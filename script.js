@@ -30,7 +30,7 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.hidden-up, .hidden-left, .hidden-right').forEach(el => observer.observe(el));
 document.querySelectorAll('.counter').forEach(el => observer.observe(el.parentElement));
 
-// Updated Counter Logic (Handles + signs and decimals)
+// Updated Counter Logic
 function startCounter(el) {
     const targetStr = el.getAttribute('data-target');
     const suffix = el.getAttribute('data-suffix') || '';
@@ -76,12 +76,11 @@ if (typeElement) {
     setTimeout(typeWriter, 500);
 }
 
-// --- 4. Goal Planner Logic (FIXED) ---
+// --- 4. Goal Planner Logic ---
 if (document.getElementById('goal-planner')) {
     let currentStep = 1;
     const totalSteps = 5; 
 
-    // Function to navigate steps
     window.showStep = function(step) {
         document.querySelectorAll('.planner-step').forEach(s => s.classList.remove('active'));
         const stepElement = document.getElementById(`step${step}`);
@@ -96,7 +95,6 @@ if (document.getElementById('goal-planner')) {
         }
     }
 
-    // Next Button Logic
     window.nextStep = function(targetStep) {
         if(currentStep === 1 && !document.getElementById('monthlyIncome').value) { alert("Please enter your monthly income."); return; }
         if(currentStep === 2 && !document.getElementById('goalType').value) { alert("Please select a goal."); return; }
@@ -104,49 +102,38 @@ if (document.getElementById('goal-planner')) {
         showStep(targetStep);
     }
 
-    // Prev Button Logic
     window.prevStep = function(targetStep) { showStep(targetStep); }
 
-    // Calculation Logic
     window.calculateGoal = function() {
         const targetAmountInput = document.getElementById('targetAmount');
         const currentSavingsInput = document.getElementById('currentSavings');
         const goalYearsInput = document.getElementById('goalYears');
         const goalTypeInput = document.getElementById('goalType');
 
-        if(!targetAmountInput || !goalYearsInput) return; // Safety check
+        if(!targetAmountInput || !goalYearsInput) return;
 
         const targetAmount = parseFloat(targetAmountInput.value) || 0;
         const currentSavings = parseFloat(currentSavingsInput.value) || 0;
         const years = parseFloat(goalYearsInput.value) || 1;
         
-        // --- 15% RETURN RATE ---
         const rate = 15; 
         const monthlyRate = rate / 12 / 100;
         const months = years * 12;
         
-        // Future value of current savings
         const currentSavingsFV = currentSavings * Math.pow((1 + rate/100), years);
-        
-        // Remaining amount needed
         let requiredAmount = targetAmount - currentSavingsFV;
         
-        // Update Result Screen
         showStep(5);
 
-        // Update Target Amount Text
         const resTarget = document.getElementById('resTarget');
         if(resTarget) resTarget.innerText = '₹ ' + targetAmount.toLocaleString('en-IN');
 
-        // Update Goal Name Text (if element exists)
         const resGoal = document.getElementById('resGoal');
         if(resGoal && goalTypeInput) resGoal.innerText = goalTypeInput.value;
 
-        // Update Years Text (FIXED)
         const resYears = document.getElementById('resYears');
         if(resYears) resYears.innerText = years;
 
-        // Update SIP Result
         const requiredSIPEl = document.getElementById('requiredSIP');
         if(requiredSIPEl) {
             if(requiredAmount <= 0) {
@@ -165,7 +152,6 @@ if (document.getElementById('goal-planner')) {
         const form = document.getElementById('plannerForm');
         if(form) form.reset();
         
-        // Reset range text manually since form reset doesn't trigger oninput
         const yearValue = document.getElementById('yearValue');
         if(yearValue) yearValue.innerText = "5 Years";
         
@@ -257,18 +243,28 @@ if (document.getElementById('stdChart')) {
     initStandardCalc();
 }
 
-// --- 6. Carousels ---
+// --- 6. Carousels (UPDATED LOGIC) ---
+// Now scrolls by exactly 1 card width + gap
 if (document.getElementById('servicesTrack')) {
     window.scrollServices = (direction) => {
         const track = document.getElementById('servicesTrack');
-        track.scrollBy({ left: direction * 320, behavior: 'smooth' });
+        // Get dynamic card width + gap (20px)
+        const card = track.querySelector('.service-slide-card');
+        const scrollAmt = card ? card.offsetWidth + 20 : 320;
+        track.scrollBy({ left: direction * scrollAmt, behavior: 'smooth' });
     };
 }
 
 if (document.getElementById('testimonialTrack')) {
     window.scrollTestimonials = (direction) => {
         const track = document.getElementById('testimonialTrack');
-        track.scrollBy({ left: direction * 350, behavior: 'smooth' });
+        // Get dynamic card width + gap (30px gap for testimonials)
+        const card = track.querySelector('.testimonial-card');
+        // We use 30 here because the grid gap in CSS might be larger, or card size differs
+        // But usually gap is defined in CSS .carousel-track { gap: 20px }
+        // Let's assume 20px gap based on CSS provided previously
+        const scrollAmt = card ? card.offsetWidth + 20 : 350; 
+        track.scrollBy({ left: direction * scrollAmt, behavior: 'smooth' });
     };
 }
 
