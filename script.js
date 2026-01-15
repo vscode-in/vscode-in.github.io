@@ -119,33 +119,20 @@ if (document.getElementById('goal-planner')) {
         const rate = 15; 
         const monthlyRate = rate / 12 / 100;
         const months = years * 12;
-        
         const currentSavingsFV = currentSavings * Math.pow((1 + rate/100), years);
         let requiredAmount = targetAmount - currentSavingsFV;
         
-        showStep(5);
-
-        const resTarget = document.getElementById('resTarget');
-        if(resTarget) resTarget.innerText = '₹ ' + targetAmount.toLocaleString('en-IN');
-
-        const resGoal = document.getElementById('resGoal');
-        if(resGoal && goalTypeInput) resGoal.innerText = goalTypeInput.value;
-
-        const resYears = document.getElementById('resYears');
-        if(resYears) resYears.innerText = years;
-
         const requiredSIPEl = document.getElementById('requiredSIP');
-        if(requiredSIPEl) {
-            if(requiredAmount <= 0) {
-                requiredSIPEl.innerText = "Goal Achievable with Savings!";
-                requiredSIPEl.style.fontSize = "1.5rem";
-            } else {
-                const factor = (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate * (1 + monthlyRate);
-                const monthlySIP = requiredAmount / factor;
-                requiredSIPEl.innerText = '₹ ' + Math.ceil(monthlySIP).toLocaleString('en-IN');
-                requiredSIPEl.style.fontSize = "2.2rem";
-            }
+
+        if(requiredAmount <= 0) {
+            if(requiredSIPEl) requiredSIPEl.innerText = "Goal Met!";
+        } else {
+            const factor = (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate * (1 + monthlyRate);
+            const monthlySIP = requiredAmount / factor;
+            if(requiredSIPEl) requiredSIPEl.innerText = '₹ ' + Math.ceil(monthlySIP).toLocaleString('en-IN');
         }
+        
+        showStep(5);
     }
 
     window.resetPlanner = function() {
@@ -243,14 +230,12 @@ if (document.getElementById('stdChart')) {
     initStandardCalc();
 }
 
-// --- 6. Carousels (UPDATED LOGIC) ---
-// Now scrolls by exactly 1 card width + gap
+// --- 6. Carousels (UPDATED RESPONSIVE LOGIC) ---
 if (document.getElementById('servicesTrack')) {
     window.scrollServices = (direction) => {
         const track = document.getElementById('servicesTrack');
-        // Get dynamic card width + gap (20px)
         const card = track.querySelector('.service-slide-card');
-        const scrollAmt = card ? card.offsetWidth + 20 : 320;
+        const scrollAmt = card ? card.offsetWidth + 30 : 320; 
         track.scrollBy({ left: direction * scrollAmt, behavior: 'smooth' });
     };
 }
@@ -258,12 +243,8 @@ if (document.getElementById('servicesTrack')) {
 if (document.getElementById('testimonialTrack')) {
     window.scrollTestimonials = (direction) => {
         const track = document.getElementById('testimonialTrack');
-        // Get dynamic card width + gap (30px gap for testimonials)
         const card = track.querySelector('.testimonial-card');
-        // We use 30 here because the grid gap in CSS might be larger, or card size differs
-        // But usually gap is defined in CSS .carousel-track { gap: 20px }
-        // Let's assume 20px gap based on CSS provided previously
-        const scrollAmt = card ? card.offsetWidth + 20 : 350; 
+        const scrollAmt = card ? card.offsetWidth + 30 : 350; 
         track.scrollBy({ left: direction * scrollAmt, behavior: 'smooth' });
     };
 }
